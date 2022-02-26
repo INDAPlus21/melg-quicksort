@@ -15,7 +15,7 @@ func main() {
 	var values []int
 
 	// Input
-	const maxCapacity = 512 * 1024 * 8
+	const maxCapacity = 2000000 // Max 500000 i32
 	buffer := make([]byte, maxCapacity)
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Buffer(buffer, maxCapacity)
@@ -50,10 +50,16 @@ func main() {
 // Based on https://www.geeksforgeeks.org/quick-sort/
 func quicksort(array []int, low int, high int) {
 	if low < high {
-		partionindex := partition(array, low, high)
+		// Use insertion sort for small arrays
+		if high-low <= 10 {
+			insertionsort(array, low, high)
+		} else {
+			// Use quick sort
+			partionindex := partition(array, low, high)
 
-		quicksort(array, low, partionindex-1)  // Left of index
-		quicksort(array, partionindex+1, high) // Right of index
+			quicksort(array, low, partionindex-1)  // Left of index
+			quicksort(array, partionindex+1, high) // Right of index
+		}
 	}
 }
 
@@ -79,4 +85,19 @@ func partition(array []int, low int, high int) int {
 	array[high] = temp
 
 	return index + 1
+}
+
+func insertionsort(array []int, low int, high int) {
+	for i := 0; i < high+1; i++ {
+		value := array[i]
+		j := i
+
+		// Move the column until it's in the right place
+		for j > low && array[j-1] > value {
+			array[j] = array[j-1]
+			j -= 1
+		}
+
+		array[j] = value
+	}
 }
