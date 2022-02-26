@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -14,18 +15,21 @@ func main() {
 	var values []int
 
 	// Input
-	var temp string
-	fmt.Scan(&temp)
-	count, _ = strconv.Atoi(temp)
-	const maxCapacity = 512 * 1024
+	const maxCapacity = 512 * 1024 * 8
 	buffer := make([]byte, maxCapacity)
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Buffer(buffer, maxCapacity)
-	scanner.Split(bufio.ScanWords)
+
+	var temp string
+	scanner.Scan()
+
+	temp = scanner.Text()
+	inputs := strings.Split(temp, " ")
+	count, _ = strconv.Atoi(inputs[0])
 
 	for i := 0; i < count; i++ {
-		scanner.Scan()
-		val, _ := strconv.Atoi(scanner.Text())
+		val, _ := strconv.Atoi(inputs[i+1])
+
 		// Values
 		values = append(values, val)
 	}
@@ -34,10 +38,13 @@ func main() {
 	quicksort(values, 0, len(values)-1)
 
 	// Print
+	var output strings.Builder
 	for _, j := range values {
-		print(j)
-		print(" ")
+		output.WriteString(strconv.Itoa(j))
+		output.WriteString(" ")
 	}
+
+	fmt.Print(output.String())
 }
 
 // Based on https://www.geeksforgeeks.org/quick-sort/
@@ -55,7 +62,7 @@ func partition(array []int, low int, high int) int {
 	pivot := array[high]
 	index := low - 1
 
-	for j := low; j <= high-1; j++ {
+	for j := low; j < high; j++ {
 		if array[j] < pivot {
 			index += 1
 
