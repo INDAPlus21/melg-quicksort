@@ -63,6 +63,12 @@ func quicksort(array []int, low int, high int) {
 	}
 }
 
+func swap(array []int, a int, b int) {
+	tmp := array[a]
+	array[a] = array[b]
+	array[b] = tmp
+}
+
 // Place values that are less to the left and values that are higher to the right
 func partition(array []int, low int, high int) int {
 	pivot := array[high]
@@ -72,17 +78,11 @@ func partition(array []int, low int, high int) int {
 		if array[j] < pivot {
 			index += 1
 
-			// Swap
-			temp := array[index]
-			array[index] = array[j]
-			array[j] = temp
+			swap(array, index, j)
 		}
 	}
 
-	// Swap
-	temp := array[index+1]
-	array[index+1] = array[high]
-	array[high] = temp
+	swap(array, index+1, high)
 
 	return index + 1
 }
