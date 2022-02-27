@@ -71,18 +71,36 @@ func swap(array []int, a int, b int) {
 
 // Place values that are less to the left and values that are higher to the right
 func partition(array []int, low int, high int) int {
-	pivot := array[high]
+	// Median of three pivot selection (sort them)
+	// Pointers as the values are swapped
+	lowpivot := &array[low]
+	medianpivot := &array[(low+high)/2]
+	highpivot := &array[high]
+
+	if *lowpivot > *medianpivot {
+		swap(array, low, (low+high)/2)
+	}
+
+	if *lowpivot > *highpivot {
+		swap(array, low, high)
+	}
+
+	if *medianpivot > *highpivot {
+		swap(array, (low+high)/2, high)
+	}
+
+	swap(array, (low+high)/2, high-1)
+	pivot := array[high-1]
 	index := low - 1
 
-	for j := low; j < high; j++ {
+	for j := low; j <= high; j++ {
 		if array[j] < pivot {
 			index += 1
-
 			swap(array, index, j)
 		}
 	}
 
-	swap(array, index+1, high)
+	swap(array, index+1, high-1)
 
 	return index + 1
 }
