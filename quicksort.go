@@ -49,16 +49,23 @@ func main() {
 
 // Based on https://www.geeksforgeeks.org/quick-sort/
 func quicksort(array []int, low int, high int) {
-	if low < high {
+	for low < high {
 		// Use insertion sort for small arrays
 		if high-low <= 10 {
 			insertionsort(array, low, high)
+			break
 		} else {
 			// Use quick sort
-			partionindex := partition(array, low, high)
+			pivot := partition(array, low, high)
 
-			quicksort(array, low, partionindex-1)  // Left of index
-			quicksort(array, partionindex+1, high) // Right of index
+			// tail optimization
+			if pivot-low < high-pivot {
+				quicksort(array, low, pivot-1) // Left of index
+				low = pivot + 1
+			} else {
+				quicksort(array, pivot+1, high) // Right of index
+				high = pivot - 1
+			}
 		}
 	}
 }
