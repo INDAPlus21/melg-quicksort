@@ -49,26 +49,6 @@ func main() {
 
 // Based on https://www.geeksforgeeks.org/quick-sort/
 func quicksort(array []int, low int, high int) {
-	/*for low < high {
-		// Use insertion sort for small arrays
-		if high-low <= 10 {
-			insertionsort(array, low, high)
-			break
-		} else {
-			// Use quick sort
-			pivot := partition(array, low, high)
-
-			// tail optimization
-			if pivot-low < high-pivot {
-				quicksort(array, low, pivot) // Left of index
-				low = pivot + 1
-			} else {
-				quicksort(array, pivot+1, high) // Right of index
-				high = pivot - 1
-			}
-		}
-	}*/
-
 	if low < high {
 		// Use insertion sort for small arrays
 		if high-low <= 10 {
@@ -117,38 +97,6 @@ func partition(array []int, low int, high int) int {
 
 		swap(array, left, right)
 	}
-	// Median of three pivot selection (sort them)
-	// Pointers as the values are swapped
-	/*lowpivot := &array[low]
-	medianpivot := &array[(low+high)/2]
-	highpivot := &array[high]
-
-	if *lowpivot > *medianpivot {
-		swap(array, low, (low+high)/2)
-	}
-
-	if *lowpivot > *highpivot {
-		swap(array, low, high)
-	}
-
-	if *medianpivot > *highpivot {
-		swap(array, (low+high)/2, high)
-	}
-
-	swap(array, (low+high)/2, high-1)
-	pivot := array[high-1]
-	index := low - 1
-
-	for j := low; j <= high; j++ {
-		if array[j] < pivot {
-			index += 1
-			swap(array, index, j)
-		}
-	}
-
-	swap(array, index+1, high-1)
-
-	return index + 1*/
 }
 
 func insertionsort(array []int, low int, high int) {
