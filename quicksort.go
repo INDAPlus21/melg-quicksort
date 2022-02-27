@@ -49,7 +49,7 @@ func main() {
 
 // Based on https://www.geeksforgeeks.org/quick-sort/
 func quicksort(array []int, low int, high int) {
-	for low < high {
+	/*for low < high {
 		// Use insertion sort for small arrays
 		if high-low <= 10 {
 			insertionsort(array, low, high)
@@ -60,12 +60,25 @@ func quicksort(array []int, low int, high int) {
 
 			// tail optimization
 			if pivot-low < high-pivot {
-				quicksort(array, low, pivot-1) // Left of index
+				quicksort(array, low, pivot) // Left of index
 				low = pivot + 1
 			} else {
 				quicksort(array, pivot+1, high) // Right of index
 				high = pivot - 1
 			}
+		}
+	}*/
+
+	if low < high {
+		// Use insertion sort for small arrays
+		if high-low <= 10 {
+			insertionsort(array, low, high)
+		} else {
+			// Use quick sort
+			pivot := partition(array, low, high)
+
+			quicksort(array, low, pivot)
+			quicksort(array, pivot+1, high)
 		}
 	}
 }
@@ -78,9 +91,35 @@ func swap(array []int, a int, b int) {
 
 // Place values that are less to the left and values that are higher to the right
 func partition(array []int, low int, high int) int {
+	// Hoare's partioning scheme
+	pivot := array[low]
+	left := low - 1
+	right := high + 1
+
+	for {
+		for {
+			left += 1
+			if array[left] >= pivot {
+				break
+			}
+		}
+
+		for {
+			right -= 1
+			if array[right] <= pivot {
+				break
+			}
+		}
+
+		if left >= right {
+			return right
+		}
+
+		swap(array, left, right)
+	}
 	// Median of three pivot selection (sort them)
 	// Pointers as the values are swapped
-	lowpivot := &array[low]
+	/*lowpivot := &array[low]
 	medianpivot := &array[(low+high)/2]
 	highpivot := &array[high]
 
@@ -109,7 +148,7 @@ func partition(array []int, low int, high int) int {
 
 	swap(array, index+1, high-1)
 
-	return index + 1
+	return index + 1*/
 }
 
 func insertionsort(array []int, low int, high int) {
