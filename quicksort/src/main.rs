@@ -3,10 +3,10 @@ use std::io::BufRead;
 
 fn main() {
     // Input
-    let mut line = String::with_capacity(500000);
+    let mut line = String::with_capacity(2_000_000); // 500000 chars
     io::stdin().lock().read_line(&mut line);
 
-    let mut values: Vec<isize> = Vec::with_capacity(500000);
+    let mut values: Vec<isize> = Vec::with_capacity(line.len());
     values = line
         .split_whitespace()
         .skip(1)
@@ -28,15 +28,18 @@ fn main() {
 }
 
 fn quicksort(values: &mut Vec<isize>, low: usize, high: usize) {
-    if low < high {
+    // Tail call optimization
+    let mut new_low = low;
+    while new_low < high {
         // Use insertion sort for small arrays
-        if high - low <= 10 {
-            insertionsort(values, low, high);
+        if high - new_low <= 10 {
+            insertionsort(values, new_low, high);
+            break;
         } else {
             // Use quick sort
-            let pivot = partition(values, low, high);
-            quicksort(values, low, pivot);
-            quicksort(values, pivot + 1, high);
+            let pivot = partition(values, new_low, high);
+            quicksort(values, new_low, pivot);
+            new_low = pivot + 1;
         }
     }
 }
