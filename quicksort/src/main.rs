@@ -29,7 +29,7 @@ fn main() {
 
 fn quicksort(values: &mut Vec<isize>, low: usize, high: usize) {
     // Tail call optimization
-    let mut new_low = low;
+    /*let mut new_low = low;
     while new_low < high {
         // Use insertion sort for small arrays
         if high - new_low <= 10 {
@@ -41,12 +41,23 @@ fn quicksort(values: &mut Vec<isize>, low: usize, high: usize) {
             quicksort(values, new_low, pivot);
             new_low = pivot + 1;
         }
+    }*/
+    if low < high {
+        // Use insertion sort for small arrays
+        if high - low <= 10 {
+            insertionsort(values, low, high);
+        } else {
+            // Use quick sort
+            let pivot = partition(values, low, high);
+            quicksort(values, low, pivot);
+            quicksort(values, pivot + 1, high);
+        }
     }
 }
 
 // Hoare's partioning scheme
 fn partition(values: &mut Vec<isize>, low: usize, high: usize) -> usize {
-    let pivot = values[low];
+    let pivot = values[(low + high) / 2];
     let mut left = low - 1;
     let mut right = high + 1;
 
@@ -74,7 +85,7 @@ fn partition(values: &mut Vec<isize>, low: usize, high: usize) -> usize {
 }
 
 fn insertionsort(values: &mut Vec<isize>, low: usize, high: usize) {
-    for i in low..(high + 1) {
+    for i in (low + 1)..(high + 1) {
         let value = values[i];
         let mut j = i;
 
