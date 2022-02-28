@@ -74,7 +74,7 @@ fn partition(values: &mut Vec<isize>, low: usize, high: usize) -> usize {
 }
 
 fn insertionsort(values: &mut Vec<isize>, low: usize, high: usize) {
-    for i in 0..(high + 1) {
+    for i in low..(high + 1) {
         let value = values[i];
         let mut j = i;
 
