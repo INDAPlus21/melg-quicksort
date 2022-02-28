@@ -29,7 +29,7 @@ fn main() {
 
 fn quicksort(values: &mut Vec<isize>, low: usize, high: usize) {
     // Tail call optimization
-    /*let mut new_low = low;
+    let mut new_low = low;
     while new_low < high {
         // Use insertion sort for small arrays
         if high - new_low <= 10 {
@@ -40,17 +40,6 @@ fn quicksort(values: &mut Vec<isize>, low: usize, high: usize) {
             let pivot = partition(values, new_low, high);
             quicksort(values, new_low, pivot);
             new_low = pivot + 1;
-        }
-    }*/
-    if low < high {
-        // Use insertion sort for small arrays
-        if high - low <= 10 {
-            insertionsort(values, low, high);
-        } else {
-            // Use quick sort
-            let pivot = partition(values, low, high);
-            quicksort(values, low, pivot);
-            quicksort(values, pivot + 1, high);
         }
     }
 }
